@@ -381,33 +381,27 @@ common.uploadFileToS3 = function (key, filePath) {
 };
 
 common.uploadFileToOSS = function (key, filePath) {
-  var ALY = require('aliyun-sdk');
-  var ossStream = require('aliyun-oss-upload-stream')(new ALY.OSS({
-    accessKeyId:  _.get(config, 'oss.accessKeyId'),
-    secretAccessKey: _.get(config, 'oss.secretAccessKey'),
-    endpoint: _.get(config, 'oss.endpoint'),
-    apiVersion: '2013-10-15',
-  }));
-  if (!_.isEmpty(_.get(config, 'oss.prefix', ""))) {
-    key = `${_.get(config, 'oss.prefix')}/${key}`;
-  }
-  var upload = ossStream.upload({
-    Bucket: _.get(config, 'oss.bucketName'),
-    Key: key,
-  });
+	var OSS = require('ali-oss')
+	var client = new OSS({
+		region: _.get(config, 'oss.region'),
+		accessKeyId: _.get(config, 'oss.accessKeyId'),
+		accessKeySecret: _.get(config, 'oss.secretAccessKey'),
+		bucket: _.get(config, 'oss.bucketName'),
+	});
+	
+	if (!_.isEmpty(_.get(config, 'oss.prefix', ""))) {
+	    key = `${_.get(config, 'oss.prefix')}/${key}`;
+	}
 
-  return new Promise((resolve, reject) => {
-    upload.on('error', (error) => {
-      log.debug("uploadFileToOSS", error);
-      reject(error);
-    });
-
-    upload.on('uploaded', (details) => {
-      log.debug("uploadFileToOSS", details);
-      resolve(details.ETag);
-    });
-    fs.createReadStream(filePath).pipe(upload);
-  });
+	async function put () {
+		try {
+			let result = await client.put(key, filePath);
+			console.log(result);
+		} catch (e) {
+			console.log(e);
+		}
+	}
+	put();
 };
 
 common.uploadFileToTencentCloud = function (key, filePath) {

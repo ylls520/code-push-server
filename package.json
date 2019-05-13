@@ -38,8 +38,7 @@
     "coverage": "make coverage"
   },
   "dependencies": {
-    "aliyun-oss-upload-stream": "^1.3.0",
-    "aliyun-sdk": "^1.11.10",
+    "ali-oss": "^6.1.1",
     "aws-sdk": "^2.7.0",
     "bcryptjs": "^2.3.0",
     "bluebird": "^3.4.1",

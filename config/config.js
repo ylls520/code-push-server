@@ -33,7 +33,7 @@ config.development = {
   oss: {
     accessKeyId: "",
     secretAccessKey: "",
-    endpoint: "",
+    region: "",
     bucketName: "",
     prefix: "", // Key prefix in object key
     downloadUrl: "", // binary files download host address.
