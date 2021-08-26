@@ -432,16 +432,7 @@ common.uploadFileToOSS = function (key, filePath) {
 	if (!_.isEmpty(_.get(config, 'oss.prefix', ""))) {
 	    key = `${_.get(config, 'oss.prefix')}/${key}`;
 	}
-
-	async function put () {
-		try {
-			let result = await client.put(key, filePath);
-			console.log(result);
-		} catch (e) {
-			console.log(e);
-		}
-	}
-	put();
+  return client.put(key, filePath);
 };
 
 common.uploadFileToTencentCloud = function (key, filePath) {
